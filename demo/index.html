@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        
+        <script type="text/javascript" src="angular-dragdrop.js"></script>
+        <script type="text/javascript" src="../angular-dynamic-grid.js"></script>
+
+        <script type="text/javascript">
+            angular.module('app', ['ngDynamicGrid', 'ngDragDrop']).controller('demoController', function($scope) {
+                $scope.isDragging = false;
+                $scope.debug = true;
+                $scope.fgObj = {
+                    x: 0,
+                    y: 0,
+                    cx: 50,
+                    cy: 50,
+                    w: 100,
+                    h: 100
+                };
+                $scope.objects = [{
+                    x: 109,
+                    y: 55,
+                    w: 80,
+                    h: 47
+                }, {
+                    x: 248,
+                    y: 91,
+                    w: 226,
+                    h: 162
+                }, {
+                    x: 57,
+                    y: 268,
+                    w: 100,
+                    h: 55
+                }, {
+                    x: 386,
+                    y: 289,
+                    w: 80,
+                    h: 53
+                }];
+
+                $scope.ctrlDrag = function(event, data) {
+                    $scope.$apply(function() {
+                        $scope.fgObj.x = data.position.left;
+                        $scope.fgObj.y = data.position.top;
+                        $scope.isDragging = true;
+                    });                    
+                };
+
+                $scope.ctrlDrop = function (event, data){ 
+                    console.log('drop');
+                    $scope.$apply(function() {
+                        $scope.isDragging = false;
+                    });
+                };
+            });;
+        </script>
+    </head>
+
+    <body ng-app="app" ng-controller="demoController">
+        
+        <ul>
+            <button ng-click="moveTo('A')">Move to A</button> 
+            <button ng-click="moveTo('B')">Move to B</button> 
+            <button ng-click="moveTo('C')">Move to C</button>
+            <button ng-click="moveTo('D')">Move to D</button>
+        </ul>
+
+        <input id="debug" type="checkbox" ng-model="debug"> <label for="debug">Debug</label>
+
+        <dynamic-grid-container active="isDragging" 
+                                objects="objects" 
+                                debug="debug" 
+                                fg-obj="fgObj" 
+                                margin="5" 
+                                bg-image="'bg.png'">
+            <img src="fg.png" 
+                 style="position:absolute; cursor: move; z-index: 10000;"
+                 data-drag="true"
+                 data-jqyoui-options="{containment: '.dynamic-grid-container'}"
+                 jqyoui-draggable="{onDrag: 'ctrlDrag(item)', onStop: 'ctrlDrop(item)'}"/>
+        </dynamic-grid-container>
+    </body>
+</html>
