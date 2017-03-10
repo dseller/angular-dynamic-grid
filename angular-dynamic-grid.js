@@ -17,7 +17,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR TH
     module.component('dynamicGridContainer', dynamicGridContainer());
     
     function dynamicGridContainer() {
-        dynamicGridContainer.$inject = ['$scope', '$element'];
+        dynamicGridContainerController.$inject = ['$scope', '$element'];
         function dynamicGridContainerController($scope, $element) {
             var vm = this;
             vm.guideLines = [];
